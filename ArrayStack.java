@@ -1,7 +1,7 @@
 import java.util.*;
 
 
-public class ArrayStack<T> implements Stack{
+public class ArrayStack<T> implements Stack<T>{
 
     protected int top;
     protected T[] a;
@@ -9,11 +9,8 @@ public class ArrayStack<T> implements Stack{
 
 
     @Override
-    public void push(Object item){
-//        if (empty()){
-//            throw new Exception("Stack is empty");
-//        }
-        item = top;
+    public void push(T item){
+        a[++top]=item;
 
     }
 
@@ -24,8 +21,7 @@ public class ArrayStack<T> implements Stack{
         return a[top--];
     }
 
-    @Override
-    public Object peek() throws Exception {
+    public T peek() throws Exception {
         if (empty()){
             throw new Exception("Stack is empty");
         }
