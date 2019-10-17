@@ -4,7 +4,7 @@ import java.util.*;
 public class ArrayStack<T> implements Stack<T>{
 
     protected int top;
-    protected T[] a;
+    T[] a = (T[]) new Object[10];
 
 
 
