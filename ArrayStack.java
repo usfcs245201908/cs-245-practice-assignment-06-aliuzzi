@@ -36,7 +36,7 @@ public class ArrayStack<T> implements Stack<T>{
 //    }
 
     public boolean empty(){
-        if(top==1){
+        if(top==-1){
             return true;
         }
         return false;
