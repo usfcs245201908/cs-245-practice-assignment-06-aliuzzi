@@ -1,78 +1,56 @@
-import java.util.NoSuchElementException;
+public class ArrayQueue<T> implements Queue {
+    private T[] arr;
+    private int tail;
+    private int head;
+    private int size;
+    private int capacity;
 
-import java.util.*;
 
-public class ArrayQueue<T> implements Queue<T> {
+    public ArrayQueue(){
+        this(500);
+    }
+    public ArrayQueue(int length) {
+        this.capacity = length;
+        this.head = 0;
+        this.size = 0;
+        this.tail = capacity - 1;
+        this.arr = (T[]) new Object[length];
+    }
 
+    private boolean full(){
+        return size == capacity;
+    }
 
-    int head;
-    int tail;
-    int size;
-    //protected T[] a;
-    protected T item;
-
-    T[] a = (T[]) new Object[10];
-
-    public T dequeue() {
-        if(empty()) throw new NoSuchElementException("Queue Underflow");
-            //throw new Exception("Queue is empty");
-        //item = head;
-        head += 1;
-        if (head == size) {
-            head = 0;
+    public T dequeue() throws Exception{
+        if(empty()){
+            throw new Exception();
         }
-        empty();
-        head = tail;
-        return a[head];
-
+        T item = arr[head];
+        head = (head + 1)%capacity;
+        size -= 1;
+        return item;
     }
 
-
-
-    @Override
-    public void enqueue(T item) {
-        a[tail] = item;
-        tail++;
-        if(tail == size){
-            tail = 0;
-        }
-
-    }
-
-//    public void enqueue(T item) {
-//        data[tail] = item;
-//        tail+= 1;
-//        if (tail == size) {
-//            tail = 0;
-//        }
-//    }
-
-
-    public boolean empty() {
-        return (size == 0);
-    }
-}
-
-
-
-    @Override
     public void enqueue(Object item) {
-        //a[tail] = item;
-        tail++;
-        if(tail == size){
-            tail = 0;
+        if(full()){
+            grow();
         }
+        tail = (tail + 1)%capacity;
+        arr[tail] = (T) item;
+        size += 1;
 
     }
-//
-//    public void enqueue(T item) {
-//        data[tail] = item;
-//        tail+= 1;
-//        if (tail == size) {
-//            tail = 0;
-//        }
-//    }
+
     public boolean empty() {
-        return (size == 0);
+        return size == 0;
+    }
+
+    private void grow() {
+        T[] arr2 = (T[]) new Object[capacity * 2];
+        for (int i = 0; i < capacity; i++) {
+            arr2[i] = arr[i];
+        }
+        arr = arr2;
+        capacity *= 2;
     }
 }
