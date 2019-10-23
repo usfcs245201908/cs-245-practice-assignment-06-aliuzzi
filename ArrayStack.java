@@ -1,48 +1,51 @@
-import java.util.*;
+public class ArrayStack<T> implements Stack {
+    private T[] arr;
+    private int top;
+    private int size;
 
-
-public class ArrayStack<T> implements Stack<T>{
-
-    protected int top;
-    T[] a = (T[]) new Object[10];
-
-
-
-    @Override
-    public void push(T item){
-        a[++top]=item;
-
+    public ArrayStack() {
+        this(500);
     }
 
-    public T pop() throws Exception{
-        if(empty()){
-            throw new Exception("Stack is Empty");
+    public ArrayStack(int length) {
+        this.arr = (T[]) new Object[length];
+        this.top = -1;
+        this.size = length;
+    }
+
+    public void push(Object item) {
+        if (top == size - 1) {
+            growArray();
         }
-        return a[top--];
+        arr[++top] = (T) item;
+    }
+
+    public T pop() throws Exception {
+        if (empty()) {
+            throw new Exception("Empty Stack");
+        }
+        return (T) arr[top--];
     }
 
     public T peek() throws Exception {
-        if (empty()){
-            throw new Exception("Stack is empty");
+        if (empty()) {
+            throw new Exception("Empty Stack");
         }
-        return a[0];
+        return arr[top];
     }
 
-//    void grow(){
-//        T[] new_a;
-//        new_a = [a.length*2];
-//        Arrays.copyOfRange(0,a.length,a,new[] a);
-//        a = new_a;
-//    }
-
-    public boolean empty(){
-        if(top==-1){
-            return true;
-        }
-        return false;
+    public boolean empty() {
+        return top < 0;
     }
 
+    private void growArray() {
+        T[] arr2 = (T[]) new Object[size * 2];
+        for (int i = 0; i < size; i++) {
+            arr2[i] = arr[i];
+        }
+        arr = arr2;
+        size *= 2;
 
-
+    }
 
 }
